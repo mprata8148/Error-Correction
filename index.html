@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My HTML Page</title>
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+</head>
+
+<body onload="updateText()">
+    <!-- Rest of your HTML code -->
+    <div class="options">
+        <div class="menu" id="Menu">
+            <select id="dropdown" class="dropdown" onchange="updateText()">
+                <option value="Brute Force">Brute Force</option>
+                <option value="Hamming">Hamming</option>
+                <option value="Reed Solomon">Reed Solomon</option>
+            </select>
+            <select id="size" class="menu_button" onchange="updateText()">
+                <option value="8bits">8 bit</option>
+                <option value="16bits">16 bit</option>
+                <option value="20bits">20 bit</option>
+            </select>
+            <select id="copies" class="menu_button" onchange="updateText()">
+                <option value="3copies">3 copies</option>
+                <option value="4copies">4 copies</option>
+                <option value="5copies">5 copies</option>
+            </select>
+            <div class="Run" id="Run" onclick="clickedStart(this)">
+                <span class="start-text">Start</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="content" id="content">
+        <div id="top_content"></div>
+        <div id="bottom_content"></div>
+        <!-- <div id="chartDiv" class="graph_chart">
+        </div> -->
+    </div>
+
+    <div class="title">
+        <span class="text">Brute Force</span>
+    </div>
+    <script src="https://code.jscharting.com/2.9.0/jscharting.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

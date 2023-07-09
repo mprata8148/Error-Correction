@@ -1,0 +1,185 @@
+body {
+    background-color: #40444b;
+}
+
+button {
+    background-color: blue;
+    color: white;
+    border-radius: 10px;
+    padding: 15px 25px;
+    border-color: transparent;
+
+}
+
+.dropdown {
+    /* CSS styles for the dropdown menu */
+    position: relative;
+    width: 100%;
+    height: 6vh;
+    top: 0%;
+    left: 0;
+    border: 1px solid transparent;
+    background-color: #202225;
+    color: white;
+    text-align: center;
+    border-bottom-color: rgb(94, 90, 90);
+
+}
+
+.options {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    /* Position the rectangle below the dropdown */
+    width: 20%;
+    /* Set the width to 50% of the viewport width */
+    height: 100%;
+    /* Set the height to 30% of the viewport height */
+    background-color: #202225;
+}
+
+.menu_button {
+    position: relative;
+    align-items: center;
+    background-color: #202225;
+    width: 100%;
+    height: 6vh;
+    border: 1px solid transparent;
+    color: white;
+    text-align: center;
+}
+
+
+
+.graph_back {
+    position: absolute;
+    top: 8%;
+    right: 1%;
+    width: 61%;
+    height: 90%;
+    background-color: #202225;
+    border-radius: 25px;
+}
+
+.data {
+    position: absolute;
+    top: 10%;
+    right: 3%;
+    width: 57%;
+    height: 45%;
+    background-color: #292b2f;
+    border-radius: 25px;
+}
+
+.graph {
+    position: absolute;
+    top: 57%;
+    right: 3%;
+    width: 57%;
+    height: 39%;
+    background-color: #292b2f;
+    border-radius: 25px;
+}
+
+.title {
+    position: absolute;
+    width: 80vw;
+    height: 6vh;
+    /* border: 1px solid transparent; */
+    background-color: #292b2f;
+    top: 0%;
+    color: white;
+    left: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 90%;
+}
+
+.text {
+    font-size: 20px;
+    text-align: center;
+}
+
+.graph_chart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
+
+}
+
+.size_selection {
+    position: absolute;
+    top: 90%;
+    left: 75%;
+    border-radius: 5px;
+    background-color: #5865F2;
+    color: #FFFFFF;
+    border-color: "transparent";
+}
+
+.Run {
+    position: absolute;
+    align-items: center;
+    background-color: #202225;
+    width: 100%;
+    height: 6vh;
+    top: 93%;
+    border: 1px solid transparent;
+    color: white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.start-text {
+    text-align: center;
+}
+
+.Run:hover {
+    background-color: #5865F2;
+}
+
+
+.content {
+    position: absolute;
+    width: 80%;
+    height: 94%;
+    left: 20%;
+    top: 6%;
+    background-color: #40444b;
+}
+
+@keyframes fadeDrawing {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.rectangle {
+    position: absolute;
+    animation-name: fadeDrawing;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    background-color: #868383;
+    z-index: 3;
+    border: 1px solid;
+    border-color: #202225;
+    border-radius: 2px;
+    /* border-width: 2px; */
+    text-align: center;
+    color: white;
+}
+
+.rectangle:hover {
+    background-color: #5865F2;
+    /* background-color: #f2c459; */
+}
