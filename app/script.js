@@ -8,7 +8,9 @@ function updateText() {
 
     spanElement.textContent = selectedOption;
     update_menu(selectedOption)
+
     if (selectedOption == "Brute Force") {
+        CreateLegendBF();
         draw_grid();
     }
     else if (selectedOption == "Hamming") {

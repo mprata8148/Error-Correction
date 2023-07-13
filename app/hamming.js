@@ -128,11 +128,9 @@ function Hamming_Code_Animation() {
     var top_step = width;
     var bit_array = [];
     var parity_bits = new Set();
-    console.log(shapeContainer.childElementCount);
     if (shapeContainer.childElementCount > grid_size * grid_size) {
         for (let j = grid_size * grid_size; j < 2 * (grid_size * grid_size); j++) {
             var child = shapeContainer.childNodes[grid_size * grid_size];
-            console.log(child);
             shapeContainer.removeChild(child);
         }
     }
@@ -168,7 +166,7 @@ function Hamming_Code_Animation() {
     var parity_bits = {};
     var error = new Set();
     var temp = [];
-    
+
     for (let i = 0; i < bit_array.length; i++) {
         if (Math.log2(i) % 1 === 0) {
             parity_bits[i] = 0;
@@ -187,6 +185,7 @@ function Hamming_Code_Animation() {
             error.add(parseInt(key, 10));
         }
     }
+    console.log(error)
     var Error_Bit = {}
     for (let i = 0; i < bit_array.length; i++) {
         // var childElement = shapeContainer.children[(grid_size * grid_size)];
@@ -213,8 +212,9 @@ function Hamming_Code_Animation() {
             }
         }
     }
-    if(Error_Bit[maxKey] == 1){
-        maxKey--;
+    const firstElement = [...error.values()][0];
+    if (Error_Bit[maxKey] == 1) {
+        maxKey = firstElement + (grid_size * grid_size);
     }
     var childElement = shapeContainer.children[maxKey];
     childElement.style.backgroundColor = "red";

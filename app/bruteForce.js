@@ -8,15 +8,11 @@ function draw_grid() {
     var shapeContainer = document.getElementById("top_content");
     var total_height = document.getElementById("content").offsetHeight;
     var total_width = document.getElementById("content").offsetWidth;
-    var width = total_width / (bit_count_number + 4);
+    var min = (total_height > total_width ? total_width : total_height);
+    var width = min / (bit_count_number + 4);
     var height = width;
-    var left_step = 2 * width;
+    var left_step = (total_width - (width * bit_count_number)) / 2;
     var top_step = 10;
-    if (bit_count_number === 8) {
-        width = total_width / (bit_count_number + 6);
-        left_step = 3 * width;
-        height = width;
-    }
     Bit_Array = [];
     for (let i = 0; i < bit_count_number; i++) {
         var randomNumber = Math.round(Math.random());
@@ -42,7 +38,7 @@ function draw_grid() {
             shapeContainer.appendChild(rectangle);
 
         }
-        left_step = bit_count_number === 8 ? 3 * width : 2 * width;
+        left_step = (total_width - (width * bit_count_number)) / 2;
         top_step += height + 5;
     }
 }
@@ -81,16 +77,12 @@ function BruteForceAnimation(start) {
         }
     }
     ///////////////////////////////////////////////
+    var total_height = document.getElementById("content").offsetHeight;
     var total_width = document.getElementById("content").offsetWidth;
-    // var total_height = document.getElementById("content").offsetHeight;
-    var width = total_width / (bit_count_number + 4);
+    var min = (total_height > total_width ? total_width : total_height);
+    var width = min / (bit_count_number + 4);
     var height = width;
-    var left_step = 2 * width;
-    if (bit_count_number === 8) {
-        width = total_width / (bit_count_number + 6);
-        left_step = 3 * width;
-        height = width;
-    }
+    var left_step = (total_width - (width * bit_count_number)) / 2;
     var starting_height = (height + 5) * copy_count_num + height;
     for (let i = 0; i < bit_count_number; i++) {
         var rectangle = document.createElement("div");
@@ -109,4 +101,30 @@ function BruteForceAnimation(start) {
         left_step += width;
         Boxes.appendChild(rectangle);
     }
+}
+
+function CreateLegendBF() {
+    var Legend = document.getElementById("Legend")
+
+    while (Legend.firstChild) {
+        Legend.removeChild(Legend.firstChild);
+    }
+    const Parent1 = Object.assign(document.createElement('div'), { className: 'Legend_Wrapper' });
+    const Parent2 = Object.assign(document.createElement('div'), { className: 'Legend_Wrapper' });
+    const greenRect = Object.assign(document.createElement('div'), { className: 'legend-rect' });
+    const greenText = document.createTextNode('Correct Bit');
+    const redText = document.createTextNode('Wrong Bit');
+    const redRect = Object.assign(document.createElement('div'), { className: 'legend-rect' });
+    greenRect.style.height = redRect.style.height = "100%";
+    greenRect.style.width = redRect.style.width = Legend.offsetHeight * .2 + "px";
+    greenRect.style.backgroundColor = "#458b53";
+    redRect.style.backgroundColor = "#e1675b";
+
+    //Appending Child
+    Parent1.appendChild(greenRect);
+    Parent1.appendChild(greenText);
+    Parent2.appendChild(redRect);
+    Parent2.appendChild(redText);
+    Legend.appendChild(Parent1);
+    Legend.appendChild(Parent2);
 }
