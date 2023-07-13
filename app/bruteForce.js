@@ -105,7 +105,7 @@ function BruteForceAnimation(start) {
 
 function CreateLegendBF() {
     var Legend = document.getElementById("Legend")
-
+    Legend.style.height = Legend.offsetHeight*.4 + "px";
     while (Legend.firstChild) {
         Legend.removeChild(Legend.firstChild);
     }
@@ -119,7 +119,7 @@ function CreateLegendBF() {
     greenRect.style.width = redRect.style.width = Legend.offsetHeight * .2 + "px";
     greenRect.style.backgroundColor = "#458b53";
     redRect.style.backgroundColor = "#e1675b";
-
+    // Legend.style.height = Legend.offsetHeight*.4 + "px";
     //Appending Child
     Parent1.appendChild(greenRect);
     Parent1.appendChild(greenText);
