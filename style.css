@@ -237,4 +237,6 @@ button {
     margin: 5%;
     /* padding:5%; */
     border-radius: 5%;
+    width: 20%;
+    height: 100%;
 }

@@ -1,6 +1,13 @@
 // script.js
 
 let Bit_Array = [];
+
+function handleWindowResize() {
+    updateText();
+}
+
+// Attach an event listener to the window's resize event
+window.addEventListener('resize', handleWindowResize);
 function updateText() {
     var dropdown = document.getElementById("dropdown");
     var selectedOption = dropdown.options[dropdown.selectedIndex].text;
@@ -14,6 +21,7 @@ function updateText() {
         draw_grid();
     }
     else if (selectedOption == "Hamming") {
+        CreateLegendHam()
         Hamming_Code();
     }
 }
@@ -23,7 +31,23 @@ function update_menu(selectedOption) {
     var button1 = document.getElementById("size");
     var options1 = button1.getElementsByTagName("option");
     var button2 = document.getElementById("copies");
-
+    while (menu.firstChild) {
+        menu.removeChild(menu.firstChild);
+    }
+    switch (selectedOption) {
+        case "Brute Force":
+            Brute_Force_Menu();
+            break;
+        case "Hamming":
+            Hamming_Menu();
+            break;
+        case "Reed Solomon":
+            Brute_Force_Menu();
+            break;
+        default:
+            Brute_Force_Menu();
+            break;
+    }
     if (button2 === null) {
         button2 = document.createElement("select");
         button2.setAttribute("id", "copies");

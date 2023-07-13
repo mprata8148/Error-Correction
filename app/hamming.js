@@ -219,29 +219,38 @@ function Hamming_Code_Animation() {
     var childElement = shapeContainer.children[maxKey];
     childElement.style.backgroundColor = "red";
 }
-
+function CreateParent(color, txt, height) {
+    Parent = Object.assign(document.createElement('div'), { className: 'Legend_Wrapper' });
+    Parent.style.height = height;
+    Parent.append(CreateRect(color));
+    Parent.append(CreateText(txt));
+    return Parent;
+}
+function CreateRect(color) {
+    const rect = Object.assign(document.createElement('div'), { className: 'legend-rect' });
+    rect.style.backgroundColor = color;
+    // rect.style.height = "100%";
+    return rect;
+}
+function CreateText(txt) {
+    return document.createTextNode(txt);
+}
 function CreateLegendHam() {
     var Legend = document.getElementById("Legend")
-    Legend.style.height = Legend.offsetHeight*.4 + "px";
+    Legend.style.height = Legend.offsetHeight * .4 + "px";
+    var LightGreen = "#458b53"; var LightRed = "#e1675b"; var Red = "red"; var Grey = "#868383"; var Highlight = "#9ed795";
+    var width = "17%";
     while (Legend.firstChild) {
         Legend.removeChild(Legend.firstChild);
     }
-    const Parent1 = Object.assign(document.createElement('div'), { className: 'Legend_Wrapper' });
-    const Parent2 = Object.assign(document.createElement('div'), { className: 'Legend_Wrapper' });
-    const greenRect = Object.assign(document.createElement('div'), { className: 'legend-rect' });
-    const greenText = document.createTextNode('Correct Bit');
-    const redText = document.createTextNode('Wrong Bit');
-    const redRect = Object.assign(document.createElement('div'), { className: 'legend-rect' });
-    greenRect.style.height = redRect.style.height = "100%";
-    greenRect.style.width = redRect.style.width = Legend.offsetHeight * .2 + "px";
-    greenRect.style.backgroundColor = "#458b53";
-    redRect.style.backgroundColor = "#e1675b";
-    Legend.style.height = Legend.offsetHeight*2 + "px";
-    //Appending Child
-    Parent1.appendChild(greenRect);
-    Parent1.appendChild(greenText);
-    Parent2.appendChild(redRect);
-    Parent2.appendChild(redText);
-    Legend.appendChild(Parent1);
-    Legend.appendChild(Parent2);
+    Legend.style.top = "70%"
+    Legend.style.width = "30%";
+    Legend.style.height = "40%";
+
+    // Legend.style.height = Legend.offsetHeight * 4 + "px";
+    Legend.appendChild(CreateParent(LightGreen, "Parity Bit", width));
+    Legend.appendChild(CreateParent(LightRed, "MP Bit: Wrong", width));
+    Legend.appendChild(CreateParent(Red, "Wrong Bit", width));
+    Legend.appendChild(CreateParent(Grey, "Data Bit", width));
+    Legend.appendChild(CreateParent(Highlight, "Watched Bits", width));
 }

@@ -103,28 +103,59 @@ function BruteForceAnimation(start) {
     }
 }
 
+
 function CreateLegendBF() {
     var Legend = document.getElementById("Legend")
-    Legend.style.height = Legend.offsetHeight*.4 + "px";
+    Legend.style.height = Legend.offsetHeight * .4 + "px";
+    var LightGreen = "#458b53"; var LightRed = "#e1675b"; var Red = "red"; var Grey = "#868383"; var Highlight = "#9ed795";
+    var width = "25%";
     while (Legend.firstChild) {
         Legend.removeChild(Legend.firstChild);
     }
-    const Parent1 = Object.assign(document.createElement('div'), { className: 'Legend_Wrapper' });
-    const Parent2 = Object.assign(document.createElement('div'), { className: 'Legend_Wrapper' });
-    const greenRect = Object.assign(document.createElement('div'), { className: 'legend-rect' });
-    const greenText = document.createTextNode('Correct Bit');
-    const redText = document.createTextNode('Wrong Bit');
-    const redRect = Object.assign(document.createElement('div'), { className: 'legend-rect' });
-    greenRect.style.height = redRect.style.height = "100%";
-    greenRect.style.width = redRect.style.width = Legend.offsetHeight * .2 + "px";
-    greenRect.style.backgroundColor = "#458b53";
-    redRect.style.backgroundColor = "#e1675b";
-    // Legend.style.height = Legend.offsetHeight*.4 + "px";
-    //Appending Child
-    Parent1.appendChild(greenRect);
-    Parent1.appendChild(greenText);
-    Parent2.appendChild(redRect);
-    Parent2.appendChild(redText);
-    Legend.appendChild(Parent1);
-    Legend.appendChild(Parent2);
+    Legend.style.top = "80%"
+    Legend.style.width = "30%";
+    Legend.style.height = "10%";
+
+    // Legend.style.height = Legend.offsetHeight * 4 + "px";
+    Legend.appendChild(CreateParent(LightGreen, "Correct Bit", width));
+    Legend.appendChild(CreateParent(LightRed, "Wrong Bit", width));
+    Legend.appendChild(CreateParent(Grey, "Data Bit", width));
+
+}
+{/* <select id="dropdown" class="dropdown" onchange="updateText()">
+                <option value="Brute Force">Brute Force</option>
+                <option value="Hamming">Hamming</option>
+                <option value="Reed Solomon">Reed Solomon</option>
+            </select>
+            <select id="size" class="menu_button" onchange="updateText()">
+                <option value="8bits">8 bit</option>
+                <option value="16bits">16 bit</option>
+                <option value="20bits">20 bit</option>
+            </select>
+            <select id="copies" class="menu_button" onchange="updateText()">
+                <option value="3copies">3 copies</option>
+                <option value="4copies">4 copies</option>
+                <option value="5copies">5 copies</option>
+            </select>
+            <div class="Run" id="Run" onclick="clickedStart(this)">
+                <span class="start-text">Start</span>
+            </div> */}
+
+function create_options(parent) {
+    for (let i = 0; i < 3; i++) {
+        var newOption = document.createElement("option");
+        parent.appendChild(newOption)
+    }
+}
+function Brute_Force_Menu() {
+    var Main = document.createElement("select");
+    Main.setAttribute("id" = "dropdown");
+    Main.setAttribute("class" = "dropdown");
+    create_options(Menu);
+    Menu.children[0].textContent = "Brute Force"
+    Menu.children[1].textContent = "Hamming";
+    Menu.children[2].textContent = "Reed Solomon";
+    Menu.children[0].value = "Brute Force";
+    Menu.children[1].value = "Hamming";
+    Menu.children[2].value = "Reed Solomon";
 }
