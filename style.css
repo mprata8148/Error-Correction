@@ -108,7 +108,8 @@ button {
     transform: translate(-50%, -50%);
     width: 90%;
     height: 90%;
-
+    /* text-color:#FFFFFF; */
+    /* background-color: transparent; */
 }
 
 .size_selection {
@@ -190,7 +191,13 @@ button {
     border: 2px solid;
     /* background-color: #f2c459; */
 }
+.corner_text {
+    position: absolute;
+    color: black;
+    left: 80%;
+    top: 70%;
 
+}
 .Legend {
     position: absolute;
     width: 30%;
@@ -239,4 +246,14 @@ button {
     border-radius: 5%;
     width: 20%;
     height: 100%;
+}
+
+.GraphLocation{
+    position: absolute;
+    background-color: rgb(185, 172, 172);
+    width:40%;
+    height: 50%;
+    top: 50%;
+    left: 60%;
+    
 }

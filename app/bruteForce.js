@@ -141,21 +141,37 @@ function CreateLegendBF() {
                 <span class="start-text">Start</span>
             </div> */}
 
-function create_options(parent) {
+function create_options(parent, str,values) {
     for (let i = 0; i < 3; i++) {
         var newOption = document.createElement("option");
+        newOption.textContent = str[i];
+        newOption.value = values[i];
         parent.appendChild(newOption)
     }
 }
-function Brute_Force_Menu() {
+function Brute_Force_Menu(menu) {
+    var str = ["Brute Force","Hamming","Reed Solomon"];
+    var str1 = ["8 bits","16 bits","20 bits"];
+    var value1 = ["8bits","16bits","20bits"];
+    var str2 = ["3 copies","4 copies","5 copies"];
+    var value2 = ["3copies","4copies","5copies"];
     var Main = document.createElement("select");
-    Main.setAttribute("id" = "dropdown");
-    Main.setAttribute("class" = "dropdown");
-    create_options(Menu);
-    Menu.children[0].textContent = "Brute Force"
-    Menu.children[1].textContent = "Hamming";
-    Menu.children[2].textContent = "Reed Solomon";
-    Menu.children[0].value = "Brute Force";
-    Menu.children[1].value = "Hamming";
-    Menu.children[2].value = "Reed Solomon";
+    var Button1 = document.createElement("select");
+    var Button2 = document.createElement("select");
+    Button2.setAttribute("id", "copies");
+    Button2.setAttribute("class","menu_button")
+    Button2.setAttribute("onchange", "updateText()");
+    Button1.setAttribute("id", "size");
+    Button1.setAttribute("class","menu_button")
+    Button1.setAttribute("onchange", "updateText()");
+    Main.setAttribute("id" ,"dropdown");
+    Main.setAttribute("class", "dropdown");
+    Main.setAttribute("onchange", "updateText()");
+    
+    create_options(Main,str,str);
+    create_options(Button1,str1,value1);
+    create_options(Button2,str2,value2);
+    menu.appendChild(Main);
+    menu.appendChild(Button1);
+    menu.appendChild(Button2);
 }

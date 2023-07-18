@@ -24,6 +24,9 @@ function updateText() {
         CreateLegendHam()
         Hamming_Code();
     }
+    else{
+        ReedSolomonMain();
+    }
 }
 
 function update_menu(selectedOption) {
@@ -31,23 +34,6 @@ function update_menu(selectedOption) {
     var button1 = document.getElementById("size");
     var options1 = button1.getElementsByTagName("option");
     var button2 = document.getElementById("copies");
-    while (menu.firstChild) {
-        menu.removeChild(menu.firstChild);
-    }
-    switch (selectedOption) {
-        case "Brute Force":
-            Brute_Force_Menu();
-            break;
-        case "Hamming":
-            Hamming_Menu();
-            break;
-        case "Reed Solomon":
-            Brute_Force_Menu();
-            break;
-        default:
-            Brute_Force_Menu();
-            break;
-    }
     if (button2 === null) {
         button2 = document.createElement("select");
         button2.setAttribute("id", "copies");
@@ -57,7 +43,6 @@ function update_menu(selectedOption) {
     }
     var options2 = button2.getElementsByTagName("option");
     for (let i = options2.length; i < 3; i++) {
-
         var newOption = document.createElement("option");
         newOption.textContent = "";
         button2.appendChild(newOption)
@@ -85,6 +70,10 @@ function update_menu(selectedOption) {
             button2.removeChild(button2.firstChild);
         }
         button2.remove();
+    }
+    // Hamming
+    else{
+        ReedSolomonSettings();
     }
 }
 
@@ -140,24 +129,5 @@ function getNumbersWithOneBit(number) {
 
 
 
-// var chartOptions = { defaultPoint: { outline: { color: "darken" } } };
 
-// JSC.Chart('chartDiv', {
-//     type: 'horizontal column',
-//     chartArea_fill: 'transparent',
-//     series: [
-//         {
-//             points: [
-//                 { x: 'Apples', y: 50, color: "red" },
-//                 { x: 'Oranges', y: 42 },
-
-//             ]
-//         }
-//     ],
-//     box: {
-//         radius: 10,
-//         fill: "#202225"
-//     }
-// });
-// JSC.getPallette('fiveColor13')
 
