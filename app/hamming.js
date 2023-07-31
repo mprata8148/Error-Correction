@@ -178,14 +178,14 @@ function Hamming_Code_Animation() {
             }
         }
     }
-    console.log(parity_bits)
+    // console.log(parity_bits)
     for (var key in parity_bits) {
         if (parity_bits[key] % 2 !== bit_array[key]) {
             // Color in error row
             error.add(parseInt(key, 10));
         }
     }
-    console.log(error)
+    // console.log(error)
     var Error_Bit = {}
     for (let i = 0; i < bit_array.length; i++) {
         // var childElement = shapeContainer.children[(grid_size * grid_size)];

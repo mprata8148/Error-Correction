@@ -21,11 +21,13 @@ function updateText() {
         draw_grid();
     }
     else if (selectedOption == "Hamming") {
-        CreateLegendHam()
+        CreateLegendHam();
         Hamming_Code();
     }
     else{
+        CreateLegendRS();
         ReedSolomonMain();
+
     }
 }
 
@@ -97,22 +99,38 @@ function clickedStart(start) {
     } else {
         start.innerText = "Start";
     }
-    if (start.innerText === "Stop") {
+    if (start.innerText === "Stop" || "Generate Error Bits") {
         if (selectedOption === "Brute Force") {
             BruteForceAnimation(start);
         }
         else if (selectedOption === "Hamming") {
-            console.log("HAMMING");
+            // console.log("HAMMING");
             Hamming_Code_Animation();
+        }
+        else{
+            Lagrange_Interpolation(N_Array);
         }
     }
 }
-
+function clickedExplain(){
+    var dropdown = document.getElementById("dropdown");
+    var selectedOption = dropdown.options[dropdown.selectedIndex].text;
+    // console.log(selectedOption);
+    switch(selectedOption){
+        case "Brute Force":
+            bruteForceExp();
+            break;
+        case "Hamming":
+            hammingExp();
+            break;
+        default:
+            break;
+    }
+}
 
 function getNumbersWithOneBit(number) {
     var binaryString = number.toString(2);
     var numbersWithOneBit = [];
-
     for (var i = 0; i < binaryString.length; i++) {
         if (binaryString[i] === '1') {
             var pow = binaryString.length - i - 1;
@@ -122,11 +140,13 @@ function getNumbersWithOneBit(number) {
             }
         }
     }
-
     return numbersWithOneBit;
 }
 
 
+function positiveModulo(n, m) {
+    return ((n % m) + m) % m;
+  }
 
 
 

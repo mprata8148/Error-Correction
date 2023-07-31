@@ -25,20 +25,31 @@
                 <option value="4copies">4 copies</option>
                 <option value="5copies">5 copies</option>
             </select>
+            <div class="ExpButton" id="Exp" onclick="clickedExplain()">
+                <span class="explainButton">Explain</span>
+            </div>
             <div class="Run" id="Run" onclick="clickedStart(this)">
                 <span class="start-text">Start</span>
             </div>
         </div>
     </div>
-
+    <div class="expWindow" id="expWindow">
+        <div class="TextZone" id="TZ">
+        </div>
+        <div class="closeButton" id="closeButton" onclick="closeEXP()"><span class="line line1"></span>
+            <span class="line line2"></span></div>
+    </div>
     <div class="content" id="content">
         <div id="top_content"></div>
-        <div id="bottom_content"></div>
+        <div id="bottom_content">
+            <div id="polynomial" class="polynomial"></div>
+        </div>
         <!-- <div id="chartDiv" class="graph_chart">
         </div> -->
     </div>
-    <div class="GraphLocation" id="GraphLocation"><div id="chartDiv" class="graph_chart">
-    </div></div>
+    <div class="GraphLocation" id="GraphLocation">
+        <div id="chartDiv" class="graph_chart"></div>
+    </div>
     <div class="title">
         <span class="text">Brute Force</span>
     </div>
@@ -50,6 +61,7 @@
     <script src="./app/bruteForce.js"></script>
     <script src="./app/ReedSolomon.js"></script>
     <script src="./app/polynomial.js"></script>
+    <script src="./app/explanation.js"></script>
 </body>
 
 </html>
