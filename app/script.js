@@ -144,9 +144,7 @@ function getNumbersWithOneBit(number) {
 }
 
 
-function positiveModulo(n, m) {
-    return ((n % m) + m) % m;
-  }
+
 
 
 

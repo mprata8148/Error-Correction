@@ -49,22 +49,21 @@ function Lagrange_Interpolation(Points_Array){
         return arrayForm(foil)
     });
     var additiveValues = [];
-    console.log(values);
     values.forEach((valueArray) => {
         // console.log(valueArray)
         valueArray.forEach((a, i) => {
-            // console.log("value", a)
-            // console.log("index", i)
-            additiveValues[i] = (additiveValues[i] || 0) + a;
-            console.log(additiveValues[i] );
+        
+            additiveValues[i] = simplify([fractAdding(a,(additiveValues[i] || "0"))])[0];
+            // (additiveValues[i] || 0) + a;
         });
     })
-    // console.log(additiveValues);
-
-    var poly_text = document.getElementById("polynomial");
-    poly_text.textContent = polyStringFormat(additiveValues);
+    console.log("Additive Values: ",polyStringFormat(additiveValues));
+    var modPoly = polyStringFormat(polynomialModulation(additiveValues,N));
+    var polyText = document.getElementById("polynomial");
+    polyText.innerHTML = modPoly;
+    // poly_text.textContent = polyStringFormat(additiveValues);
     for(let i = 0; i<IndexFix.length;i++){
-        let value = Math.round(evaluateFunction(final_polynomial,IndexFix[i]));
+        let value = Math.round(evaluatePolynomial(modPoly,IndexFix[i],N));
         // value = positiveModulo(value,N);
         Points_Array[IndexFix[i]]=value;
         Boxes.children[IndexFix[i]].textContent = value;
@@ -74,7 +73,7 @@ function Lagrange_Interpolation(Points_Array){
         Boxes.children[IndexFix[i]].appendChild(corner_text);
     }
     resetColor(Boxes,Number_K);
-    generateGraph(final_polynomial,-1,Points_Array.length);
+    generateGraph(final_polynomial,modPoly,-1,Points_Array.length,N);
     InteractiveBits(Boxes,Points_Array,Number_K);
 }
 function evaluateFunction(func, x) {
@@ -102,14 +101,19 @@ function evaluateFunction(func, x) {
     }
     
     return result;
+    // return result;
   }
 
-function generateGraph(func,min,max,N) {
+function generateGraph(lagrange,modLagrange,min,max,N) {
     var get_element = document.getElementById("GraphLocation");
     var pointsArray = [];
+    var pointsMod = [];
+    console.log("POLY: ",modLagrange,"Mod: ",N);
     for(let x = min;x<=max; x+=.25){
-        pointsArray.push([x,evaluateFunction(func,x)]);
+        pointsArray.push([x,evaluateFunction(lagrange,x)]);
+        pointsMod.push([x,evaluatePolynomial(modLagrange,x,N)]);
     }
+    console.log(pointsMod);
     const Chart = new JSC.Chart('chartDiv', {
         type: 'line',
         title: {
@@ -118,7 +122,7 @@ function generateGraph(func,min,max,N) {
         },
         // chartArea_fill: 'transparent',
         series: [{
-            name: "Generated",
+            name: "Lagrange",
             type: 'line',
             // defaultTick_interval: 1,
             points: pointsArray,
@@ -127,7 +131,16 @@ function generateGraph(func,min,max,N) {
             // xValues: JSC.range(-10, 10),
             animation: {duration:1000, easing:"easeInQuad"},
             color: "red",
-          }],
+          },
+          {
+            name: "Mod",
+            type: 'line',
+            points: pointsMod,
+            defaultPoint_marker_visible: false,
+            animation: {duration:1000, easing:"easeInQuad"},
+            color: "blue",
+          }
+        ],
         box: {
             radius: 10,
             // fill: "#202225"
@@ -150,14 +163,18 @@ function generateGraph(func,min,max,N) {
     }
     return this.substring(0, secondSpaceIndex) + this.substring(secondSpaceIndex + 1); // Remove the second space
   };
-  
-  // Example usage
-  function multiply(a1, a2) {
+function multiply(a1, a2) {
       var result = [];
-    //   console.log(a1,a2)
       a1.forEach(function (a, i) {
           a2.forEach(function (b, j) {
-              result[i + j] = (result[i + j] || 0) + a * b;
+            // a=a.toString();
+            // b=b.toString();
+
+            var prod;
+            prod = (a.includes("/")||b.includes("/")?fractMult(a,b):(parseInt(a)*parseInt(b)).toString());
+
+            result[i+j] = ((result[i + j]&&result[i + j].includes("/"))||(prod.includes("/")))?fractAdding((result[i + j] || "0"),prod):(parseInt(result[i+j]||"0")+parseInt(prod)).toString();
+            // result[i + j] = (result[i + j] || 0) + a * b;
           });
       });
       return result;
@@ -173,7 +190,7 @@ function generateGraph(func,min,max,N) {
       temp = temp.removeSecondSpace();
       termsArray[i] = temp.split(" ");
       for(let terms in termsArray[i]){
-          termsArray[i][terms] = (termsArray[i][terms] === "x"?1: parseFloat(eval(termsArray[i][terms]),10));
+          termsArray[i][terms] = (termsArray[i][terms] === "x"?"1": termsArray[i][terms]);
       }
       termsArray[i].reverse();
       // if(termsArray[i].length === 1){
@@ -181,13 +198,8 @@ function generateGraph(func,min,max,N) {
       // }
     }
     // (x - 1)*(x - 2)*(x - 3)*(4/-6)+(x - 0)*(x - 2)*(x - 3)*(1/2)+(x - 0)*(x - 1)*(x - 3)*(7/-2)+(x - 0)*(x - 1)*(x - 2)*(3/6)
-    // console.log(termsArray);
     var ans = termsArray.reduce(multiply);
-    ans = ans.map((num) =>{
-        // return Number(element.toFixed(3));
-        return Math.round(num*100 + 0.1**(17-2-(Math.round(num*100)/100).toString().length))/100
-    })
-    console.log(ans);
+    ans = simplify(ans);
     return ans
   }
 
@@ -196,7 +208,98 @@ function generateGraph(func,min,max,N) {
     for(let i = 1;i<additiveValues.length;i++){
         polyString+=(i===0?additiveValues[i]:additiveValues[i]+"x^"+i+"+");
     }
-    // console.log(polyString);
     polyString = polyString.slice(0, -1);
     return polyString;
   }
+
+function fractMult(a,b){
+    fraction = [];
+    a_num = FractionalSplit(a);
+    b_num = FractionalSplit(b);
+    fraction[0] = a_num[0]*b_num[0];
+    fraction[1] = (a_num[1]?a_num[1]:1)*(b_num[1]?b_num[1]:1);
+    // Both Negative Case:
+    if(fraction[1]<0){
+        fraction[1] = -fraction[1];
+        fraction[0] = -fraction[0];
+    }
+    return fraction[0]+"/"+fraction[1];
+}
+function fractAdding(a,b){
+    a_num = FractionalSplit(a);
+    b_num = FractionalSplit(b);
+    leastCommonMult = lcm((a_num[1]||1),(b_num[1]||1));
+    a_mult = leastCommonMult/(a_num[1]?a_num[1]:1);
+    b_mult = leastCommonMult/(b_num[1]?b_num[1]:1);
+    answer = [];
+    answer[0] = a_mult*a_num[0]+b_mult*b_num[0];
+    answer[1] = leastCommonMult;
+    return answer[0] + "/" + answer[1];
+}
+function FractionalSplit(fractionString){
+    var numList = [];
+    if(fractionString.includes("/")){
+        let [numerator, denominator] = fractionString.split('/');
+        numList.push(parseInt(numerator));
+        numList.push(parseInt(denominator));
+    }
+    else{numList.push(parseInt(fractionString,10));}
+    return numList;
+}
+
+function gcd(a, b) {
+    // Ensure a is greater than or equal to b
+    if (b === 0) {
+      return a;
+    }
+    return gcd(b, a % b);
+  }
+  function lcm(a,b){
+    return Math.abs(a*b)/gcd(a,b);
+  }
+ function simplify(ans){
+     for(let i =0;i<ans.length;i++){
+         if(ans[i].includes("/")){
+             let fraction = FractionalSplit(ans[i])
+             let greatestComDiv = gcd(parseInt(fraction[0],10),parseInt(fraction[1],10));
+            //  fraction[0]/=greatedComDiv;
+            //  fraction[1]/=greatedComDiv;
+            fraction[0]/=greatestComDiv;
+            fraction[1]/=greatestComDiv;
+            if(fraction[1]<0){
+                fraction[1] = -fraction[1];
+                fraction[0] = -fraction[0];
+            }
+            ans[i] = (fraction[1]===1?fraction[0]+"":fraction[0]+"/"+fraction[1]);
+         }
+     }
+     return ans;
+ }
+
+  function evaluateFraction(fractionString,sign) {
+    var [numerator, denominator] = fractionString.split('/').map(Number);
+  
+    numerator = (sign?-numerator:numerator);
+    return denominator === undefined ? numerator : numerator / denominator;
+  }
+  
+  function evaluatePolynomial(polynomialString, x,mod) {
+    const terms = polynomialString.split(/(?=[+-])/).map((term) => term.trim());
+    let result = 0;
+    for (const term of terms) {
+      const regex = /([+-]?\d+(?:\/\d+)?)?x\^(\d+)/;
+      if(term === "+" || term === "-"){continue;}
+      const [,coefficient, exponent] = term.match(regex) || [];
+      var sign = term.includes("-");
+      const coeff = coefficient ? evaluateFraction(coefficient,sign) : 1;
+      const exp = parseInt(exponent, 10);
+      result += (term.includes("x")?coeff * Math.pow(x, exp||0):evaluateFraction(term,sign))
+      
+    }
+
+    
+    return positiveModulo(result,mod);
+  }
+  
+  
+  
