@@ -58,9 +58,18 @@ function Lagrange_Interpolation(Points_Array){
         });
     })
     console.log("Additive Values: ",polyStringFormat(additiveValues));
+    var Lagrange_Poly = polyStringFormat(additiveValues);
     var modPoly = polyStringFormat(polynomialModulation(additiveValues,N));
-    var polyText = document.getElementById("polynomial");
-    polyText.innerHTML = modPoly;
+    var polyText =  document.getElementById("polynomial");
+    while (polyText.firstChild) {
+        polyText.removeChild(polyText.firstChild);
+    }
+    var LagrangePoly = document.createTextNode("Lagrange: "+Lagrange_Poly);
+    var lineBreak1 = document.createElement("br");
+    var modPolyStr = document.createTextNode("Mod Arithmatic Poly: "+ modPoly);
+    polyText.appendChild(LagrangePoly);
+    polyText.appendChild(lineBreak1);
+    polyText.appendChild( modPolyStr);
     // poly_text.textContent = polyStringFormat(additiveValues);
     for(let i = 0; i<IndexFix.length;i++){
         let value = Math.round(evaluatePolynomial(modPoly,IndexFix[i],N));
@@ -108,10 +117,13 @@ function generateGraph(lagrange,modLagrange,min,max,N) {
     var get_element = document.getElementById("GraphLocation");
     var pointsArray = [];
     var pointsMod = [];
+    var criticalPoints = [];
+    var Boxes = document.getElementById("top_content");
     console.log("POLY: ",modLagrange,"Mod: ",N);
     for(let x = min;x<=max; x+=.25){
         pointsArray.push([x,evaluateFunction(lagrange,x)]);
         pointsMod.push([x,evaluatePolynomial(modLagrange,x,N)]);
+        if(Number.isInteger(x)&& x>=0 &&Boxes.childElementCount > x){criticalPoints.push([x,pointsMod[pointsMod.length-1]]);}
     }
     console.log(pointsMod);
     const Chart = new JSC.Chart('chartDiv', {
@@ -139,6 +151,30 @@ function generateGraph(lagrange,modLagrange,min,max,N) {
             defaultPoint_marker_visible: false,
             animation: {duration:1000, easing:"easeInQuad"},
             color: "blue",
+           
+          },{
+            name: "Critical Points",
+            type: 'marker',
+            // visible: false,
+            points: criticalPoints,
+            lineWidth: 0, // Set the lineWidth to 0 to hide lines
+            step: true,
+            lineWidth: 0, // Set the lineWidth to 0 to prevent lines
+
+            // defaultPoint_marker_visible: false,
+            defaultPoint: { 
+                opacity: 0.8, 
+                marker: { 
+                  type: 'circle', 
+                  outline_width: 0, 
+                  size: 10
+                },
+                events_mouseOver: pointEvent,
+                events_mouseOut: hoverOffEvent
+              },
+
+            animation: {duration:1000, easing:"easeInQuad"},
+            color: "green",
           }
         ],
         box: {
@@ -204,9 +240,9 @@ function multiply(a1, a2) {
   }
 
   function polyStringFormat(additiveValues){
-    let polyString = additiveValues[0]+"+";
+    let polyString = (additiveValues[0]==="0"?"":additiveValues[0]+"+");
     for(let i = 1;i<additiveValues.length;i++){
-        polyString+=(i===0?additiveValues[i]:additiveValues[i]+"x^"+i+"+");
+        polyString+=(additiveValues[i]==="0"?"":additiveValues[i]+"x^"+i+"+");
     }
     polyString = polyString.slice(0, -1);
     return polyString;

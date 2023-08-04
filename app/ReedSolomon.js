@@ -49,7 +49,7 @@ function ReedSolomonMain(){
         Boxes.removeChild(Boxes.firstChild);
     }
     for(let i = 0; i<num_of_copies; i++){
-        const randomNumber = getRandomNumber(Math.pow(2,bit_val)-1);
+        const randomNumber = getRandomNumber(N-1);
         var rectangle = document.createElement("div");
         rectangle.style.width = width + "px";
         rectangle.style.height = height + "px";
@@ -155,4 +155,23 @@ function resetColor(Boxes,Number_K){
     for(let i = 0; i<Boxes.childElementCount;i++){
         Boxes.children[i].style.backgroundColor = (i<Boxes.childElementCount-Number_K?grey:lightGreen);
     }
+}
+
+function pointEvent(e){
+    var LightPurple = " #5865F2";
+    var Boxes = document.getElementById("top_content");
+    index = this.y[0];
+    if(index >= 0 && index < Boxes.childElementCount){Boxes.children[index].style.backgroundColor = LightPurple; }
+      
+}
+function hoverOffEvent(e){
+    var LightGreen = "#458b53"; var LightRed = "#e1675b"; var Red = "red"; var Grey = "#868383";
+    var Boxes = document.getElementById("top_content");
+    var copy_count = document.getElementById("copies").value;
+    var K = parseInt(copy_count.split(" ")[0], 10);
+    index = this.y[0];
+    if(index >= 0 && index < Boxes.childElementCount){
+        Boxes.children[index].style.backgroundColor = (Boxes.childElementCount-copy_count-1>=index?Grey:LightGreen);
+    }
+      
 }
