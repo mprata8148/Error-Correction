@@ -1,4 +1,20 @@
 // script.js
+//Colors 
+const rootStyles = getComputedStyle(document.documentElement);
+
+// Access the values of CSS variables
+const backgroundLeft = rootStyles.getPropertyValue('--background-left');
+const backgroundRight = rootStyles.getPropertyValue('--background-right');
+const greenColor = rootStyles.getPropertyValue('--green');
+const parityBitColor = rootStyles.getPropertyValue('--parity-bit');
+const mainParityBitColor = rootStyles.getPropertyValue('--Main-parity-bit');
+const rectangleHov = rootStyles.getPropertyPriority('--rectangle-hov');
+const rectangleColor = rootStyles.getPropertyPriority('--rectangle-color');
+
+const transparent = "transparent";
+var correct_green = 'linear-gradient(to right, #458b53,  #200122)';
+var errorColor = "#920505";
+var MainGreen = 'linear-gradient(to right, #1c722d,  #200122)';
 
 let Bit_Array = [];
 
@@ -24,10 +40,12 @@ function updateText() {
         CreateLegendHam();
         Hamming_Code();
     }
-    else{
+    else if (selectedOption == "Reed Solomon"){
         CreateLegendRS();
         ReedSolomonMain();
-
+    }
+    else{
+        generateQRPage();
     }
 }
 
@@ -59,6 +77,9 @@ function update_menu(selectedOption) {
         options1[2].value = "20 bit";
         options2[0].textContent = "3 copies";
         options2[1].textContent = "4 copies";
+        options2[2].textContent = "5 copies";
+        options2[0].value = "3 copies";
+        options2[1].value = "4 copies";
         options2[2].textContent = "5 copies";
     }
     else if (selectedOption == "Hamming") {

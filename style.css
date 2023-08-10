@@ -1,16 +1,30 @@
+/* var LightGreen = "#458b53"; var LightRed = "#e1675b"; var Red = "red"; var Grey = "#868383"; var Highlight = "#9ed795"; */
+:root {
+    /* --background-left: #6f0000; */
+    --background-left: #40444b;
+    --background-right: #202225;;
+    /* --rectangle-color: */
+    --green: #458b53;
+    --rectangle-color: #868383;
+    --rectangle-hov: #868383;
+    --title-color: #ffffff;
+    --title-back: #292b2f;
+    --parity-bit:#048048;
+    --Main-parity-bit:#003a15;
+  }
 body {
-    background-color: #40444b;
+    /* background-color: #40444b; */
+    background: var(--background-left);
 }
 
-button {
-    background-color: blue;
-    color: white;
-    border-radius: 10px;
-    padding: 15px 25px;
-    border-color: transparent;
-
+input[type="text"] {
+    background: transparent;
+    border: fixed;
+    border: none; /* Remove the border */
+  box-shadow: none; /* Remove the shadow */
+  outline: none;
+  color: white;
 }
-
 .dropdown {
     /* CSS styles for the dropdown menu */
     position: relative;
@@ -19,12 +33,16 @@ button {
     top: 0%;
     left: 0;
     border: 1px solid transparent;
-    background-color: #202225;
+    background-color: transparent;
     color: white;
     text-align: center;
-    border-bottom-color: rgb(94, 90, 90);
+    /* border-bottom-color: rgb(94, 90, 90); */
 
 }
+.dropdown option{
+    background-color: var(--background-left); 
+}
+
 
 .options {
     position: absolute;
@@ -34,21 +52,26 @@ button {
     width: 20%;
     /* Set the width to 50% of the viewport width */
     height: 100%;
+    border-right:1px dotted;
+    /* background: linear-gradient(245deg, var(--background-left),var(--background-right)); */
+    background: var(--background-right);
     /* Set the height to 30% of the viewport height */
-    background-color: #202225;
+    /* background-color: #202225; */
 }
 
 .menu_button {
     position: relative;
     align-items: center;
-    background-color: #202225;
+    background-color: transparent;
     width: 100%;
     height: 6vh;
     border: 1px solid transparent;
     color: white;
     text-align: center;
 }
-
+.menu_button option{
+    background-color: var(--background-left); 
+}
 
 
 .graph_back {
@@ -57,7 +80,9 @@ button {
     right: 1%;
     width: 61%;
     height: 90%;
-    background-color: #202225;
+    /* background-color: #202225; */
+    background-color: transparent;
+
     border-radius: 25px;
 }
 
@@ -86,18 +111,19 @@ button {
     width: 80vw;
     height: 6vh;
     /* border: 1px solid transparent; */
-    background-color: #292b2f;
+    background: #292b2f;
     top: 0%;
-    color: white;
+    color: var(--title-color);
+
     left: 20%;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 90%;
+    opacity:100%;
 }
 
 .text {
-    font-size: 20px;
+    font-size: 25px;
     text-align: center;
 }
 
@@ -128,7 +154,7 @@ button {
 .Run {
     position: absolute;
     align-items: center;
-    background-color: #202225;
+    background-color: transparent;
     width: 100%;
     height: 6vh;
     top: 93%;
@@ -145,7 +171,9 @@ button {
 }
 
 .Run:hover {
-    background-color: #5865F2;
+    /* background-color: #5865F2; */
+    background-color: var(--background-left);
+    
 }
 
 
@@ -155,7 +183,7 @@ button {
     height: 94%;
     left: 20%;
     top: 6%;
-    background-color: #40444b;
+    background-color: transparent;
 }
 
 @keyframes fadeDrawing {
@@ -173,11 +201,12 @@ button {
     animation-name: fadeDrawing;
     animation-duration: 2s;
     animation-fill-mode: forwards;
-    background-color: #868383;
+    /* background-color: #868383 */
+    background-color:var(--rectangle-color);
     z-index: 0;
-    border: 1px solid;
-    border-color: #202225;
-    border-radius: 2px;
+    border: 1.4px solid;
+    border-color: #000000;
+    border-radius: 1px;
     /* border-width: 2px; */
     /* transition: border .2s; */
     text-align: center;
@@ -185,11 +214,12 @@ button {
     justify-content: center;
     align-items: center;
     color: white;
+    font-size: 20px;
 }
 
 .rectangle:hover {
     z-index: 1;
-    background-color: #5865F2;
+    background: var(--rectangle-hov);
     /* box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.5); */
     border: 2px solid;
     /* background-color: #f2c459; */
@@ -264,7 +294,8 @@ button {
 .ExpButton{
     position: absolute;
     align-items: center;
-    background-color: #202225;
+    /* background-color: #202225; */
+    background-color: transparent;
     width: 100%;
     height: 6vh;
     top: 87%;
@@ -275,8 +306,9 @@ button {
     align-items: center;
     justify-content: center; 
 }
-.ExpButton:hover {
-    background-color: #5865F2;
+.ExpButton:hover{
+    background-color: var(--background-left);
+    /* background-color: ; */
 }
 .expWindow{
     position: absolute;
@@ -390,4 +422,10 @@ height: 100%;
     top:50%;
     text-align: center;
     /* background-color: red; */
+}
+
+.QRCodeBox{
+    position:absolute;
+    border-radius: 30px;
+    top: 60px;
 }

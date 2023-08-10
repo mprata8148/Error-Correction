@@ -21,6 +21,10 @@ function Lagrange_Interpolation(Points_Array){
     var copy_count = document.getElementById("copies").value;
     var Number_K = parseInt(copy_count.split(" ")[0], 10);
     var Boxes = document.getElementById("top_content");
+    var chart = document.getElementById("chartDiv");
+    if(chart){
+        chart.style.display = "block";
+    }
     for(let i = 0;i<Number_K;i++){
         coeffecient[i+Points_Array.length] = [];
     }

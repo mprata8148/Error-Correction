@@ -22,7 +22,7 @@ function parity_bit_hover(index, shapeContainer) {
     for (let i = 0; i < shapeContainer.childNodes.length; i++) {
         var childElement = shapeContainer.children[i];
         if (checkAlignedBits(index, i) && index !== i) {
-            childElement.style.backgroundColor = "#9ed795";
+            childElement.style.border = "1.4px solid";
         }
         if (i >= grid_size * grid_size) { break; }
     }
@@ -33,10 +33,30 @@ function parity_bit_hover_off(index, shapeContainer) {
     for (let i = 0; i < shapeContainer.childNodes.length; i++) {
         var childElement = shapeContainer.children[i];
         if (checkAlignedBits(index, i) && index !== i) {
-            childElement.style.backgroundColor = "#868383";
+            childElement.style.backgroundColor = rectangleColor;
+            childElement.style.border = "1.4px solid";
+            childElement.style.borderColor = "#000000";
+            childElement.addEventListener("mouseover", function (event) {
+                regularBitHover(event.target);
+            });
+            childElement.addEventListener("mouseout", function (event) {
+                regularBitHoverOff(event.target);
+            });
         }
         if (i >= grid_size * grid_size) { break; }
     }
+}
+function regularBitHover(element){
+    element.style.backgroundColor=rectangleHov;
+    /* box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.5); */
+    element.style.border= "2px solid";
+}
+function regularBitHoverOff(element){
+    
+    element.style.backgroundColor=rectangleColor;
+    /* box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.5); */
+    element.style.border= "1.4px solid";
+    element.style.borderColor = "#000000";
 }
 
 function Hamming_Code() {
@@ -53,6 +73,16 @@ function Hamming_Code() {
     var parity_bits = new Set();
     while (shapeContainer.firstChild) {
         shapeContainer.removeChild(shapeContainer.firstChild);
+    }
+    var textLocation = document.getElementById("polynomial");
+    while(textLocation.firstChild){
+        textLocation.removeChild(textLocation.firstChild);
+    }
+
+    // If the chart Exist Make It invisible
+    var chart = document.getElementById("chartDiv");
+    if(chart){
+            chart.style.display = "none";
     }
     for (let i = 0; i < grid_size * grid_size; i++) {
         if (i === 0) {
@@ -92,7 +122,7 @@ function Hamming_Code() {
 
             let index = (j + (i * grid_size))
             if (parity_bits.has(index)) {
-                rectangle.style.backgroundColor = "#458b53";
+                rectangle.style.background = parityBitColor;
                 rectangle.addEventListener("mouseover", function () {
                     parity_bit_hover(index, shapeContainer);
                 });
@@ -101,7 +131,7 @@ function Hamming_Code() {
                 });
             }
             if (index === 0) {
-                rectangle.style.backgroundColor = "#1c722d";
+                rectangle.style.background = mainParityBitColor;
             }
 
             rectangle.innerText = bit_array[index];
@@ -145,6 +175,7 @@ function Hamming_Code_Animation() {
             rectangle.classList.add("rectangle");
             rectangle.textContent = childElement.textContent;
             rectangle.style.backgroundColor = childElement.style.backgroundColor;
+            rectangle.style.background = childElement.style.background;
             bit_array.push(parseInt(childElement.textContent, 10));
             shapeContainer.appendChild(rectangle);
             left += width;

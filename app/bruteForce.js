@@ -21,8 +21,14 @@ function draw_grid() {
     while (shapeContainer.firstChild) {
         shapeContainer.removeChild(shapeContainer.firstChild);
     }
-
+    var chart = document.getElementById("chartDiv");
+    if(chart){chart.style.display = "none";}
+    var textLocation = document.getElementById("polynomial");
+    while(textLocation.firstChild){
+        textLocation.removeChild(textLocation.firstChild);
+    }
     //------------------------------------------//
+    console.log("COPY COUNT: ", copy_count);
     for (let i = 0; i < copy_count_num; i++) {
         for (let j = 0; j < bit_count_number; j++) {
             // var randomNumber = Math.round(Math.random());
@@ -93,10 +99,10 @@ function BruteForceAnimation(start) {
         rectangle.classList.add("rectangle");
         rectangle.innerText = temp_array[i];
         if (Bit_Array[i] === temp_array[i]) {
-            rectangle.style.backgroundColor = "#458b53";
+            rectangle.style.backgroundColor = rectangleColor;
         }
         else {
-            rectangle.style.backgroundColor = "#e1675b";
+            rectangle.style.backgroundColor = errorColor;
         }
         left_step += width;
         Boxes.appendChild(rectangle);
@@ -167,7 +173,7 @@ function Brute_Force_Menu(menu) {
     Main.setAttribute("id" ,"dropdown");
     Main.setAttribute("class", "dropdown");
     Main.setAttribute("onchange", "updateText()");
-    
+
     create_options(Main,str,str);
     create_options(Button1,str1,value1);
     create_options(Button2,str2,value2);

@@ -13,9 +13,11 @@
     <div class="options">
         <div class="menu" id="Menu">
             <select id="dropdown" class="dropdown" onchange="updateText()">
+                <option value="QR">QR Code (BETA)</option>
                 <option value="Brute Force">Brute Force</option>
-                <option value="Hamming">Hamming</option>
+                <option value="Hamming Code">Hamming</option>
                 <option value="Reed Solomon">Reed Solomon</option>
+                <!-- <option value="QR">QR Code (BETA)</option> -->
             </select>
             <select id="size" class="menu_button" onchange="updateText()">
                 <option value="8bits">8 bit</option>
@@ -66,6 +68,7 @@
     <script src="./app/polynomial.js"></script>
     <script src="./app/explanation.js"></script>
     <script src="./app/modularArithmetic.js"></script>
+    <script src="./app/qrLibrary/qrCodeWebPage.js"></script>
 </body>
 
 </html>

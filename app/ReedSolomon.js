@@ -45,9 +45,14 @@ function ReedSolomonMain(){
     var height = width;
     var left_step = (total_width - (width * num_of_copies)) / 2;
     var top_step = 10;
+    // Cleaning Old Boxes
     while (Boxes.firstChild) {
         Boxes.removeChild(Boxes.firstChild);
     }
+    var chart = document.getElementById("chartDiv");
+    if(chart){chart.style.display = "none";}
+    var textLocation = document.getElementById("polynomial");
+    while(textLocation.firstChild){ textLocation.removeChild(textLocation.firstChild);}
     for(let i = 0; i<num_of_copies; i++){
         const randomNumber = getRandomNumber(N-1);
         var rectangle = document.createElement("div");
@@ -76,7 +81,7 @@ function ReedSolomonMain(){
         rectangle.style.width = width + "px";
         rectangle.style.height = height + "px";
         rectangle.style.left = left_step + "px";
-        rectangle.style.backgroundColor = "#458b53";
+        rectangle.style.background = parityBitColor;
         rectangle.style.top = top_step + "px";
         rectangle.classList.add("rectangle");
         rectangle.innerText = "X";
@@ -125,7 +130,7 @@ function DropBit(event,Points_Array,Correction){
         targetElement.appendChild(childElement);
         if(Points_Array[index]!="X"){count++;}
         Points_Array[index] = "X";
-        targetElement.style.backgroundColor = "#e1675b";
+        targetElement.style.background = errorColor;
         // targetElement.removeEventListener("click", createHandleButtonClick(Points_Array, Correction));
     }
 }
@@ -153,7 +158,7 @@ function resetColor(Boxes,Number_K){
     var grey = "#868383";
     var lightGreen = "#458b53";
     for(let i = 0; i<Boxes.childElementCount;i++){
-        Boxes.children[i].style.backgroundColor = (i<Boxes.childElementCount-Number_K?grey:lightGreen);
+        Boxes.children[i].style.background = (i<Boxes.childElementCount-Number_K?rectangleColor:parityBitColor);
     }
 }
 
@@ -161,7 +166,9 @@ function pointEvent(e){
     var LightPurple = " #5865F2";
     var Boxes = document.getElementById("top_content");
     index = this.y[0];
-    if(index >= 0 && index < Boxes.childElementCount){Boxes.children[index].style.backgroundColor = LightPurple; }
+    if(index >= 0 && index < Boxes.childElementCount){
+        Boxes.children[index].style.border = "1.4px solid";
+    }
       
 }
 function hoverOffEvent(e){
@@ -171,7 +178,39 @@ function hoverOffEvent(e){
     var K = parseInt(copy_count.split(" ")[0], 10);
     index = this.y[0];
     if(index >= 0 && index < Boxes.childElementCount){
-        Boxes.children[index].style.backgroundColor = (Boxes.childElementCount-copy_count-1>=index?Grey:LightGreen);
-    }
-      
+        console.log(Boxes.children[index].style.background);
+        Boxes.children[index].style.background = (Boxes.childElementCount-copy_count-1>=index?rectangleColor:parityBitColor);
+        if(Boxes.children[index].textContent[0] === '?'){Boxes.children[index].style.background = errorColor};
+        Boxes.children[index].style.border = "1.4px solid";
+        Boxes.children[index].style.borderColor = "#000000";
+        if(Boxes.childElementCount-copy_count-1>=index){
+            Boxes.children[index].addEventListener("mouseover", function (event) {
+                regularBitHover(event.target);
+                if(event.target.textContent[0] === '?'){event.target.style.background = errorColor};
+            });
+            Boxes.children[index].addEventListener("mouseout", function (event) {
+                regularBitHoverOff(event.target);
+                if(event.target.textContent[0] === '?'){event.target.style.background = errorColor};
+            });
+        }
+        else{
+            Boxes.children[index].addEventListener("mouseover", function (event) {
+                regularBitHover(event.target);
+                event.target.style.background = parityBitColor;
+                if(event.target.textContent[0] === '?'){event.target.style.background = errorColor};
+            });
+            Boxes.children[index].addEventListener("mouseout", function (event) {
+                regularBitHoverOff(event.target);
+                event.target.style.background = parityBitColor;
+                if(event.target.textContent[0] === '?'){event.target.style.background = errorColor};
+            });
+        }
+    }     
+}
+
+function ChangedBits(){
+    // Need to go through every combonation in order to figure out which bits are dropped. 
+    // We also Dont know how many bits are dropped so we will need to figure out that as well
+    //Iterate over assuming 1 bit Error to N error bits. From there we can see if it still works. 
+    console.log("Changing Bits");
 }
