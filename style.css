@@ -425,7 +425,12 @@ height: 100%;
 }
 
 .QRCodeBox{
-    position:absolute;
+    position:relative;
     border-radius: 30px;
     top: 60px;
+}
+
+.qrCell{
+    position: absolute;
+    border: 1px solid black;
 }

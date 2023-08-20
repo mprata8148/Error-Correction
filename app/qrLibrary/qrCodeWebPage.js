@@ -13,16 +13,77 @@ class QRCode {
         this.data.push(row);
         row = [];
       }
+      this.allignmentPattern();
     }
   
-    generateQR() {
+    generateQR(parent) {
       // Define a method
-      console.log("DATA");
+      var width = parent.offsetWidth;
+      var length = parent.offsetHeight;
+      var cellSize = width / (this.size + 4);
+      var left = cellSize * 2;
+      var top = cellSize * 2;
+      for (let i = 0; i < this.size; i++) {
+          for (let j = 0; j < this.size; j++) {
+              let cell = document.createElement("div");
+              cell.className = "qrCell";
+              cell.style.left = left + "px";
+              left += cellSize;
+              cell.style.top = top + "px";
+              cell.style.width = cellSize + "px"; // Add "px" unit
+              cell.style.height = cellSize + "px"; // Add "px" unit
+              cell.style.background = this.data[i][j] === 1 ? "black" : "white";
+              parent.appendChild(cell);
+              
+          }
+          left = cellSize * 2;
+          top += cellSize;
+      }
     }
-    allignmentPattern(){
-        for(let i = 0;i<this.size;i++){
-            switch(i){
-                case
+    allignmentPatternHelper(i,mark,top){
+        if(top){
+            for (let bit = 0; bit < this.marker[mark].length; bit++) {
+                this.data[i][bit] = this.marker[mark][bit];
+                this.data[i][this.data[i].length - bit - 1] = this.marker[mark][bit];
+            }  
+        }
+        else{
+            for (let bit = 0; bit < this.marker[mark].length; bit++) {
+                this.data[i][bit] = this.marker[mark][bit];
+            }
+        }
+    }
+    allignmentPattern() {
+        console.log("Allignment Plan");
+        for (let i = 0; i < this.size; i++) {
+            if (i === 0 || i === 6) {
+                this.allignmentPatternHelper(i,0,true);
+            }
+            else if (i === 14 || i === 20) {
+                this.allignmentPatternHelper(i,0,false);
+            }
+            else if (i === 1 || i === 5) {
+                this.allignmentPatternHelper(i,1,true);
+            }
+            else if (i === 15 || i === 19) {
+                this.allignmentPatternHelper(i,1,false);
+            }
+            else if(i===2||i===3||i===4){
+                this.allignmentPatternHelper(i,2,true);
+            }
+            else if(i>=16&&i<=18){
+                this.allignmentPatternHelper(i,2,false);
+            }
+        }
+        for(let i=0;i<this.size;i++){
+            for(let j=0;j<this.size;j++){
+                for(let xShift=-1;xShift<2;xShift++){
+                    for(let yShift=-1;yShift<2;yShift++){
+                        if(xShift===0&&yshift===0){continue;}
+                    //     if()
+                    }
+                }
+
             }
         }
     }
@@ -74,7 +135,8 @@ function generateQRPage(){
     TextZone.appendChild(textBox);
     TopZone.appendChild(TextZone);
 
-    
+    var QRCODE = new QRCode(21,"bit");
+    QRCODE.generateQR(QRCodeZone);
     
 }
 function ClearScreen(){
