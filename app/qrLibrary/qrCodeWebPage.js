@@ -5,6 +5,7 @@ class QRCode {
       this.property2 = property2;
       this.data = [];
       this.marker = [[1,1,1,1,1,1,1],[1,0,0,0,0,0,1],[1,0,1,1,1,0,1]];
+      this.errorPercent = {"L":[0,1],"M":[0,0],"Q":[1,0],"H":[1,1]};
       for(let j = 0;j<size;j++){
         let row = [];
         for(let i = 0;i<size;i++){
@@ -14,6 +15,7 @@ class QRCode {
         row = [];
       }
       this.allignmentPattern();
+      this.errorCorrection("L");
     }
   
     generateQR(parent) {
@@ -33,6 +35,7 @@ class QRCode {
               cell.style.width = cellSize + "px"; // Add "px" unit
               cell.style.height = cellSize + "px"; // Add "px" unit
               cell.style.background = this.data[i][j] === 1 ? "black" : "white";
+              cell.style.background = this.data[i][j] === -1 ? "grey":cell.style.background;
               parent.appendChild(cell);
               
           }
@@ -54,7 +57,6 @@ class QRCode {
         }
     }
     allignmentPattern() {
-        console.log("Allignment Plan");
         for (let i = 0; i < this.size; i++) {
             if (i === 0 || i === 6) {
                 this.allignmentPatternHelper(i,0,true);
@@ -79,18 +81,31 @@ class QRCode {
             for(let j=0;j<this.size;j++){
                 for(let xShift=-1;xShift<2;xShift++){
                     for(let yShift=-1;yShift<2;yShift++){
-                        if(xShift===0&&yshift===0){continue;}
-                    //     if()
+                        if(xShift===0&&yShift===0){continue;}
+                        if((i+xShift<this.size && i+xShift>=0)&&(j+yShift<this.size && j+yShift>=0)){
+                            if(this.data[i+xShift][j+yShift]===1&&this.data[i][j]===-1){this.data[i][j] = 0;}
+                        }
                     }
                 }
-
             }
         }
+        
     }
   
-    method2() {
+    errorCorrection(percent){
       // Define another method
-      console.log("Method 2 called");
+      for(let i =0; i<2; i++){
+        this.data[8][i] = this.errorPercent[percent][i];
+        this.data[this.size-1-i][8] = this.errorPercent[percent][i];;
+      }
+      let i = 0;
+      let value = 1;
+      while(this.data[6][8+i]===-1){
+        this.data[6][8+i]=value;
+        this.data[8+i][6]=value
+        value = (value===1?0:1);
+        i++;
+      }
     }
   }
 // QR CODE logic 
@@ -130,7 +145,7 @@ function generateQRPage(){
     QRCodeZone.style.left =  total_width/2-base/2+"px";
     
     
-    console.log(QRCodeZone.style.left);
+
     TopZone.appendChild(QRCodeZone);
     TextZone.appendChild(textBox);
     TopZone.appendChild(TextZone);
